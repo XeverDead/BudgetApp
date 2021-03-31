@@ -1,0 +1,32 @@
+﻿<Page x:Class="UI.Pages.CategoriesListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CategoriesListPage">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition />
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+
+        <UniformGrid x:Name="LabelsGrid" Columns="2">
+            <Label x:Name="IncomeCategoriesLabel">Доходы</Label>
+            <Label x:Name="ExpensesCategoriesLabel">Расходы</Label>
+        </UniformGrid>
+        <UniformGrid x:Name="CategoriesGrid" Columns="2" Grid.Row="1">
+            <ListBox x:Name="IncomeCategoriesListBox" ItemsSource="{Binding IncomeCategoryModels}" 
+                     SelectedItem="{Binding CurrentCategoryModel, Mode=TwoWay}"/>
+            <ListBox x:Name="ExpensesCategoriesListBox" ItemsSource="{Binding ExpensesCategoryModels}" 
+                     SelectedItem="{Binding CurrentCategoryModel, Mode=TwoWay}"/>
+        </UniformGrid>
+        <UniformGrid x:Name="ButtonsGrid" Columns="2" Grid.Row="2">
+            <Button x:Name="ChangeButton" IsEnabled="{Binding IsCurrentCategoryModelNotNull, Mode=OneWay}">Изменить</Button>
+            <Button x:Name="AddButton">Добавить</Button>
+        </UniformGrid>
+    </Grid>
+</Page>

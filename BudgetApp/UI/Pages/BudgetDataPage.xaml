@@ -1,0 +1,71 @@
+﻿<Page x:Class="UI.Pages.BudgetDataPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Pages" xmlns:enums="clr-namespace:UI.Enums"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BudgetDataPage">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition />
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+
+        <UniformGrid x:Name="DateButtonsGrid" Columns="4">
+            <Label x:Name="DateLabel">Введите дату</Label>
+            <Button x:Name="WeekButton" Content="Текущая неделя" Command="{Binding SetDates}">
+                <Button.CommandParameter>
+                    <enums:DateTypes>CurrentWeek</enums:DateTypes>
+                </Button.CommandParameter>
+            </Button>
+            <Button x:Name="MonthButton" Content="Текущий месяц" Command="{Binding SetDates}">
+                <Button.CommandParameter>
+                    <enums:DateTypes>CurrentMonth</enums:DateTypes>
+                </Button.CommandParameter>
+            </Button>
+            <Button x:Name="YearButton" Content="Текущий год" Command="{Binding SetDates}">
+                <Button.CommandParameter>
+                    <enums:DateTypes>CurrentYear</enums:DateTypes>
+                </Button.CommandParameter>
+            </Button>
+        </UniformGrid>
+        <UniformGrid Name="DateEnteringGrid" Grid.Row="1" Columns="5">
+            <Label x:Name="StartDateLabel">С</Label>
+            <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate}" />
+            <Label x:Name="EndDateLabel">По</Label>
+            <DatePicker x:Name="EndDatePicker" SelectedDate="{Binding EndDate}" />
+            <Button x:Name="ApplyButton" Command="{Binding RefreshCommand}">Принять</Button>
+        </UniformGrid>
+        <UniformGrid x:Name="LabelsGrid" Columns="2" Grid.Row="2">
+            <Label x:Name="IncomeLabel">Доходы</Label>
+            <Label x:Name="ExpensesLabel">Расходы</Label>
+        </UniformGrid>
+        <UniformGrid x:Name="BudgetGrid" Grid.Row="3" Columns="2">
+            <DataGrid x:Name="IncomeDataGrid" ItemsSource="{Binding IncomeCategoryRecordModels}"/>
+            <DataGrid x:Name="ExpensesDataGrid" ItemsSource="{Binding ExpensesCategoryRecordModels}"/>
+        </UniformGrid>
+        <Grid x:Name="ResultsGrid" Grid.Row="4">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label x:Name="TotalIncomeLabel">Общий доход</Label>
+            <TextBlock x:Name="TotalIncomeTextBlock" Grid.Column="1" Text="{Binding IncomeValue}"/>
+            <Label x:Name="TotalExpensesLabel" Grid.Column="2">Общий расход</Label>
+            <TextBlock x:Name="TotalExpensesTextBlock" Grid.Column="3" Text="{Binding ExpensesValue}"/>
+            <Label x:Name="BalanceLabel" Grid.Row="1" Grid.ColumnSpan="2">Баланс</Label>
+            <TextBlock x:Name="BalanceTextBlock" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Balance}"/>
+        </Grid>
+    </Grid>
+</Page>

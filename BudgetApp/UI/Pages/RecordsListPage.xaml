@@ -1,0 +1,49 @@
+﻿<Page x:Class="UI.Pages.RecordsListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Pages" xmlns:enums="clr-namespace:UI.Enums"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="RecordsListPage">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition />
+            <RowDefinition Height="0.1*" />
+        </Grid.RowDefinitions>
+        
+        <UniformGrid x:Name="DateButtonsGrid" Columns="4">
+            <Label x:Name="DateLabel">Введите дату</Label>
+            <Button x:Name="WeekButton" Content="Текущая неделя" Command="{Binding SetDates}">
+                <Button.CommandParameter>
+                    <enums:DateTypes>CurrentWeek</enums:DateTypes>
+                </Button.CommandParameter>
+            </Button>
+            <Button x:Name="MonthButton" Content="Текущий месяц" Command="{Binding SetDates}">
+                <Button.CommandParameter>
+                    <enums:DateTypes>CurrentMonth</enums:DateTypes>
+                </Button.CommandParameter>
+            </Button>
+            <Button x:Name="YearButton" Content="Текущий год" Command="{Binding SetDates}">
+                <Button.CommandParameter>
+                    <enums:DateTypes>CurrentYear</enums:DateTypes>
+                </Button.CommandParameter>
+            </Button>
+        </UniformGrid>
+        <UniformGrid Name="DateEnteringGrid" Grid.Row="1" Columns="5">
+            <Label x:Name="StartDateLabel">С</Label>
+            <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
+            <Label x:Name="EndDateLabel">По</Label>
+            <DatePicker x:Name="EndDatePicker" SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
+            <Button x:Name="ApplyButton" Command="{Binding RefreshCommand}">Приянть</Button>
+        </UniformGrid>
+        <ListView x:Name="RecordsListView" Grid.Row="2"></ListView>
+        <UniformGrid x:Name="ButtonsGrid" Columns="2" Grid.Row="4">
+            <Button x:Name="ChangeButton" IsEnabled="{Binding IsCurrentRecordModelNotN, Mode=OneWay}">Изменить</Button>
+            <Button x:Name="AddButton">Добавить</Button>
+        </UniformGrid>
+    </Grid>
+</Page>

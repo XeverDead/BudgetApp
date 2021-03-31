@@ -1,0 +1,38 @@
+﻿<Page x:Class="UI.Pages.CategoryModificationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UI.Pages"
+      xmlns:enums="clr-namespace:Common.Enums;assembly=Common"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CategoryModificationPage">
+
+    <Page.Resources>
+        <ObjectDataProvider MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}"
+                            x:Key="CategoryGroups">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:CategoryGroups" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Page.Resources>
+    
+    <UniformGrid x:Name="MainGrid" Rows="3">
+        <UniformGrid x:Name="NameGrid" Columns="2">
+            <Label x:Name="NameLabel">Название</Label>
+            <TextBox x:Name="NameTextBox" Text="{Binding CategoryModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </UniformGrid>
+        <UniformGrid x:Name="GroupGrid" Columns="2">
+            <Label x:Name="GroupLabel">Группа</Label>
+            <ComboBox x:Name="GroupComboBox" SelectedItem="{Binding CayegoryModel.Group, Mode=TwoWay}" 
+                      ItemsSource="{Binding Source={StaticResource CategoryGroups}}"/>
+        </UniformGrid>
+        <UniformGrid x:Name="ButtonsGrid" Columns="2">
+            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}">Приянть</Button>
+            <Button x:Name="CancelButton">Отмена</Button>
+        </UniformGrid>
+    </UniformGrid>
+</Page>
