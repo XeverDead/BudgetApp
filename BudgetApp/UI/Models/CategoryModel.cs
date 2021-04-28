@@ -11,7 +11,14 @@ namespace UI.Models
 
         public CategoryModel(Category category)
         {
-            _category = (Category)category?.Clone();
+            if (category == null)
+            {
+                _category = new Category();
+            }
+            else
+            {
+                _category = (Category)category.Clone();
+            }
         }
 
         public long Id => _category.Id;

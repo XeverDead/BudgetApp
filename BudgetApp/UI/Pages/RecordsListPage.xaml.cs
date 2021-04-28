@@ -29,19 +29,21 @@ namespace UI.Pages
                 ServiceProviderContainer.GetService<CategoryService>()
                 );
             DataContext = _viewModel;
-
-            SetEventHandlers();
-        }
-
-        private void SetEventHandlers()
-        {
-            ChangeButton.Click += ChangeButton_Click;
-            AddButton.Click += AddButton_Click;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var recordPage = new RecordModificationPage(null);
+
+            var dialogWindow = new DialogWindow()
+            {
+                Owner = Window.GetWindow(this),
+                Content = recordPage
+            };
+
+            dialogWindow.ShowDialog();
+
+            _viewModel.SetRecordModels();
         }
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
@@ -49,6 +51,16 @@ namespace UI.Pages
             if (_viewModel.IsCurrentRecordModelNotNull)
             {
                 var recordPage = new RecordModificationPage(_viewModel.CurrentRecordModel);
+
+                var dialogWindow = new DialogWindow()
+                {
+                    Owner = Window.GetWindow(this),
+                    Content = recordPage
+                };
+
+                dialogWindow.ShowDialog();
+
+                _viewModel.SetRecordModels();
             }
         }
     }

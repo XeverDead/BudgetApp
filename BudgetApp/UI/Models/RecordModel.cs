@@ -14,7 +14,17 @@ namespace UI.Models
 
         public RecordModel(Record record, CategoryService categoryService)
         {
-            _record = (Record)record?.Clone();
+            if (record == null)
+            {
+                _record = new Record
+                {
+                    Date = DateTime.Now
+                };
+            }
+            else
+            {
+                _record = (Record)record.Clone();
+            }
 
             CategoryRecordModels = new ObservableCollection<CategoryRecordModel>();
 
@@ -56,7 +66,7 @@ namespace UI.Models
 
         public Record GetRecord()
         {
-            _record.CategoryRecords = new List<CategoryRecord>();
+            _record.CategoryRecords.Clear();
 
             foreach (var categoryRecordModel in CategoryRecordModels)
             {

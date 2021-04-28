@@ -1,6 +1,7 @@
 ﻿using Common.Entities;
 using Common.Enums;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,16 +21,20 @@ namespace DAL.EFRepositories
             return _dbContext.Categories.ToList();
         }
 
-        public void Add(Category category)
+        public Category Add(Category category)
         {
-            _dbContext.Categories.Add(category);
+            var changedCategoryEntry = _dbContext.Categories.Add(category);
             _dbContext.SaveChanges();
+
+            return changedCategoryEntry.Entity;
         }
 
-        public void Update(Category category)
+        public Category Update(Category category)
         {
-            _dbContext.Categories.Update(category);
+            var changedCategoryEntry = _dbContext.Categories.Update(category);
             _dbContext.SaveChanges();
+
+            return changedCategoryEntry.Entity;
         }
 
         public Category GetById(long id)

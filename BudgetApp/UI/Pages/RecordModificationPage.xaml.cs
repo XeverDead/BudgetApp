@@ -28,16 +28,9 @@ namespace UI.Pages
 
             DataContext = new RecordModificationViewModel(
                 recordModel,
-                ServiceProviderContainer.GetService<RecordService>()
+                ServiceProviderContainer.GetService<RecordService>(),
+                ServiceProviderContainer.GetService<CategoryService>()
                 );
-
-            SetEventHandlers();
-        }
-
-        private void SetEventHandlers()
-        {
-            ApplyButton.Click += CloseParentWindow;
-            CancelButton.Click += CloseParentWindow;
         }
 
         private void CloseParentWindow(object sender, RoutedEventArgs e)

@@ -10,25 +10,32 @@ namespace UI.ViewModels
     {
         private readonly RecordService _recordService;
 
-        public RecordModificationViewModel(RecordModel recordModel, RecordService recordService)
+        public RecordModificationViewModel(RecordModel recordModel, RecordService recordService, CategoryService categoryService)
         {
             _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
-
-            RecordModel = recordModel;
 
             ExpensesCategoryRecordModels = new ObservableCollection<CategoryRecordModel>();
             IncomeCategoryRecordModels = new ObservableCollection<CategoryRecordModel>();
 
-            foreach (var categoryRecordModel in recordModel.CategoryRecordModels)
+            if (recordModel != null)
             {
-                if (categoryRecordModel.CategoryModel.Group == CategoryGroups.Expenses)
+                RecordModel = recordModel;
+
+                foreach (var categoryRecordModel in recordModel.CategoryRecordModels)
                 {
-                    ExpensesCategoryRecordModels.Add(categoryRecordModel);
+                    if (categoryRecordModel.CategoryModel.Group == CategoryGroups.Expenses)
+                    {
+                        ExpensesCategoryRecordModels.Add(categoryRecordModel);
+                    }
+                    else if (categoryRecordModel.CategoryModel.Group == CategoryGroups.Income)
+                    {
+                        IncomeCategoryRecordModels.Add(categoryRecordModel);
+                    }
                 }
-                else if (categoryRecordModel.CategoryModel.Group == CategoryGroups.Income)
-                {
-                    IncomeCategoryRecordModels.Add(categoryRecordModel);
-                }
+            }
+            else
+            {
+                RecordModel = new RecordModel(null, categoryService);
             }
         }
 

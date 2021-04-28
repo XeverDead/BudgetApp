@@ -19,14 +19,14 @@ namespace BLL.Services
             return _repository.GetAll();
         }
 
-        public void Add(Record record)
+        public Record Add(Record record)
         {
-            _repository.Add(record);
+            return _repository.Add(record);
         }
 
-        public void Update(Record record)
+        public Record Update(Record record)
         {
-            _repository.Update(record);
+            return _repository.Update(record);
         }
 
         public Record GetById(long id)

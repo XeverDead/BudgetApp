@@ -20,7 +20,7 @@ namespace UI.Pages
     /// </summary>
     public partial class CategoriesListPage : Page
     {
-        private readonly CategoriesListViewModel _viewModel;
+        private CategoriesListViewModel _viewModel;
 
         public CategoriesListPage()
         {
@@ -28,19 +28,22 @@ namespace UI.Pages
 
             _viewModel = new CategoriesListViewModel(ServiceProviderContainer.GetService<CategoryService>());
             DataContext = _viewModel;
-
-            SetEventHandlers();
-        }
-
-        private void SetEventHandlers()
-        {
-            ChangeButton.Click += ChangeButton_Click;
-            AddButton.Click += AddButton_Click;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var categoryPage = new CategoryModificationPage(null);
+
+            var dialogWindow = new DialogWindow()
+            {
+                Owner = Window.GetWindow(this),
+                Content = categoryPage
+            };
+
+            dialogWindow.ShowDialog();
+
+            _viewModel = new CategoriesListViewModel(ServiceProviderContainer.GetService<CategoryService>());
+            DataContext = _viewModel;
         }
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
@@ -48,6 +51,17 @@ namespace UI.Pages
             if (_viewModel.IsCurrentCategoryModelNotNull)
             {
                 var categoryPage = new CategoryModificationPage(_viewModel.CurrentCategoryModel);
+
+                var dialogWindow = new DialogWindow()
+                {
+                    Owner = Window.GetWindow(this),
+                    Content = categoryPage
+                };
+
+                dialogWindow.ShowDialog();
+
+                _viewModel = new CategoriesListViewModel(ServiceProviderContainer.GetService<CategoryService>());
+                DataContext = _viewModel;
             } 
         }
     }

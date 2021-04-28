@@ -16,10 +16,9 @@ namespace UI
 
             var services = new ServiceCollection();
 
-            services.AddDbContext<DAL.BudgetContext>(options => options.UseSqlite("Filename=database.db;"));
             services.AddBudgetAppDependencies();
 
-            ServiceProviderContainer.ServiceProvider = services.BuildServiceProvider();
+            ServiceProviderContainer.SetServiceProvider(services.BuildServiceProvider());
         }
     }
 }

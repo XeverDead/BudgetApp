@@ -24,18 +24,12 @@ namespace UI.Pages
     {
         public CategoryModificationPage(CategoryModel categoryModel)
         {
+            InitializeComponent();
+
             DataContext = new CategoryModificationViewModel(
                 categoryModel,
                 ServiceProviderContainer.GetService<CategoryService>()
                 );
-
-            SetEventHandlers();
-        }
-
-        private void SetEventHandlers()
-        {
-            ApplyButton.Click += CloseParentWindow;
-            CancelButton.Click += CloseParentWindow;
         }
 
         private void CloseParentWindow(object sender, RoutedEventArgs e)

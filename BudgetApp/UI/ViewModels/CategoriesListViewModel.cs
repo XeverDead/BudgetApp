@@ -19,23 +19,14 @@ namespace UI.ViewModels
             _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
 
             ExpensesCategoryModels = new ObservableCollection<CategoryModel>();
+            IncomeCategoryModels = new ObservableCollection<CategoryModel>();
 
-            foreach (var category in _categoryService.GetByGroup(CategoryGroups.Expenses))
-            {
-                ExpensesCategoryModels.Add(new CategoryModel(category));
-            }
-
-            IncomeCategorYModels = new ObservableCollection<CategoryModel>();
-
-            foreach (var category in _categoryService.GetByGroup(CategoryGroups.Income))
-            {
-                IncomeCategorYModels.Add(new CategoryModel(category));
-            }
+            SetCategoryModels();
         }
 
         public ObservableCollection<CategoryModel> ExpensesCategoryModels { get; set; }
 
-        public ObservableCollection<CategoryModel> IncomeCategorYModels { get; set; }
+        public ObservableCollection<CategoryModel> IncomeCategoryModels { get; set; }
 
         public CategoryModel CurrentCategoryModel
         {
@@ -43,11 +34,38 @@ namespace UI.ViewModels
             set
             {
                 _currentCategoryModel = value;
+                IsCurrentCategoryModelNotNull = _currentCategoryModel != null;
                 RaisePropertyChanged();
             }
         }
 
-        public bool IsCurrentCategoryModelNotNull => _currentCategoryModel != null;
+        public bool IsCurrentCategoryModelNotNull
+        {
+            get => _currentCategoryModel != null;
+            set
+            {
+                RaisePropertyChanged();
+            }
+        }
+
+        public void SetCategoryModels()
+        {
+            ExpensesCategoryModels.Clear();
+
+            foreach (var category in _categoryService.GetByGroup(CategoryGroups.Expenses))
+            {
+                ExpensesCategoryModels.Add(new CategoryModel(category));
+            }
+
+            IncomeCategoryModels.Clear();
+
+            foreach (var category in _categoryService.GetByGroup(CategoryGroups.Income))
+            {
+                IncomeCategoryModels.Add(new CategoryModel(category));
+            }
+
+            CurrentCategoryModel = null;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

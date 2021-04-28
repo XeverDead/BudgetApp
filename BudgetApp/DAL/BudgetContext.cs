@@ -14,7 +14,6 @@ namespace DAL
         public BudgetContext(DbContextOptions<BudgetContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

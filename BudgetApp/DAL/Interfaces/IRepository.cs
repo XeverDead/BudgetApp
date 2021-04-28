@@ -10,8 +10,8 @@ namespace DAL.Interfaces
 
         IEnumerable<T> GetAll();
 
-        void Update(T model);
+        T Update(T model);
 
-        void Add(T model);
+        T Add(T model);
     }
 }

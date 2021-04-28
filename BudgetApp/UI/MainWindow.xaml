@@ -6,7 +6,32 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid x:Name="MainGrid">
+        <TabControl x:Name="MainTabControl">
+            <TabItem x:Name="BudgetDataTab">
+                <TabItem.Header>
+                    <Label x:Name="BudgetDataTabHeaderLabel">Бюджет</Label>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Frame x:Name="BudgetDataFrame" Source="Pages/BudgetDataPage.xaml"></Frame>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="CategoriesListTab">
+                <TabItem.Header>
+                    <Label x:Name="CategoriesListTabHeaderLabel">Категории</Label>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Frame x:Name="CategoriesListFrame" Source="Pages/CategoriesListPage.xaml"></Frame>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="RecordsListTab">
+                <TabItem.Header>
+                    <Label x:Name="RecordsListTabHeaderLabel">Записи</Label>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Frame x:Name="RecordsListFrame" Source="Pages/RecordsListPage.xaml"></Frame>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

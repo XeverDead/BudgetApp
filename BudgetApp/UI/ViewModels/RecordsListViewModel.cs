@@ -23,6 +23,8 @@ namespace UI.ViewModels
             _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
             _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
 
+            RecordModels = new ObservableCollection<RecordModel>();
+
             SetCurrentMonthDates();
 
             SetRecordModels();
@@ -89,9 +91,9 @@ namespace UI.ViewModels
             }
         }
 
-        private void SetRecordModels()
+        public void SetRecordModels()
         {
-            RecordModels = new ObservableCollection<RecordModel>();
+            RecordModels.Clear();
 
             foreach (var record in _recordService.GetByDate(_startDate, _endDate))
             {
@@ -121,22 +123,22 @@ namespace UI.ViewModels
             var now = DateTime.Now;
             var currentDayNum = (int)now.DayOfWeek - 1;
             currentDayNum = currentDayNum < 0 ? 6 : currentDayNum;
-            _startDate = DateTime.Now.AddDays(-currentDayNum);
-            _endDate = DateTime.Now.AddDays(6 - currentDayNum);
+            StartDate = DateTime.Now.AddDays(-currentDayNum);
+            EndDate = DateTime.Now.AddDays(6 - currentDayNum);
         }
 
         private void SetCurrentMonthDates()
         {
             var now = DateTime.Now;
-            _startDate = new DateTime(now.Year, now.Month, 1);
-            _endDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+            StartDate = new DateTime(now.Year, now.Month, 1);
+            EndDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
         }
 
         private void SetCurrentYearDates()
         {
             var now = DateTime.Now;
-            _startDate = new DateTime(now.Year, 1, 1);
-            _endDate = new DateTime(now.Year, 12, DateTime.DaysInMonth(now.Year, 12));
+            StartDate = new DateTime(now.Year, 1, 1);
+            EndDate = new DateTime(now.Year, 12, DateTime.DaysInMonth(now.Year, 12));
         }
 
         public bool IsCurrentRecordModelNotNull => _currentRecordModel != null;

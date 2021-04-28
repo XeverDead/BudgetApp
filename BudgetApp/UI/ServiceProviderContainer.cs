@@ -9,7 +9,7 @@ namespace UI
 
         public static void SetServiceProvider(IServiceProvider serviceProvider)
         {
-            _serviceProvider ??= serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
         public static T GetService<T>()

@@ -20,16 +20,20 @@ namespace DAL.EFRepositories
             return _dbContext.Records.ToList();
         }
 
-        public void Add(Record record)
+        public Record Add(Record record)
         {
-            _dbContext.Records.Add(record);
+            var changedRecordEntry = _dbContext.Records.Add(record);
             _dbContext.SaveChanges();
+
+            return changedRecordEntry.Entity;
         }
 
-        public void Update(Record record)
+        public Record Update(Record record)
         {
-            _dbContext.Records.Update(record);
+            var changedRecordEntry = _dbContext.Records.Update(record);
             _dbContext.SaveChanges();
+
+            return changedRecordEntry.Entity;
         }
 
         public Record GetById(long id)

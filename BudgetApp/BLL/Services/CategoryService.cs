@@ -19,14 +19,14 @@ namespace BLL.Services
             return _repository.GetAll();
         }
 
-        public void Add(Category category)
+        public Category Add(Category category)
         {
-            _repository.Add(category);
+            return _repository.Add(category);
         }
 
-        public void Update(Category category)
+        public Category Update(Category category)
         {
-            _repository.Update(category);
+            return _repository.Update(category);
         }
 
         public Category GetById(long id)

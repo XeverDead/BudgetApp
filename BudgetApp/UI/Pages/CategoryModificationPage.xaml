@@ -27,12 +27,12 @@
         </UniformGrid>
         <UniformGrid x:Name="GroupGrid" Columns="2">
             <Label x:Name="GroupLabel">Группа</Label>
-            <ComboBox x:Name="GroupComboBox" SelectedItem="{Binding CayegoryModel.Group, Mode=TwoWay}" 
+            <ComboBox x:Name="GroupComboBox" SelectedItem="{Binding CategoryModel.Group, Mode=TwoWay}" 
                       ItemsSource="{Binding Source={StaticResource CategoryGroups}}"/>
         </UniformGrid>
         <UniformGrid x:Name="ButtonsGrid" Columns="2">
-            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}">Приянть</Button>
-            <Button x:Name="CancelButton">Отмена</Button>
+            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow">Приянть</Button>
+            <Button x:Name="CancelButton" Click="CloseParentWindow">Отмена</Button>
         </UniformGrid>
     </UniformGrid>
 </Page>
