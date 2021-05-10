@@ -17,9 +17,10 @@ namespace UI.ViewModels
 
         private double _expensesValue;
         private double _incomeValue;
+        private double _balance;
 
-        private readonly RecordService _recordService;
-        private readonly CategoryService _categoryService;
+        private RecordService _recordService;
+        private CategoryService _categoryService;
 
         public BudgetDataViewModel(RecordService recordService, CategoryService categoryService)
         {
@@ -55,6 +56,12 @@ namespace UI.ViewModels
                 if (_endDate != value)
                 {
                     _endDate = value;
+
+                    if (_endDate == _endDate.Date)
+                    {
+                        _endDate = _endDate.AddDays(1).AddTicks(-1);
+                    }
+
                     RaisePropertyChanged();
                 }
             }
@@ -64,11 +71,44 @@ namespace UI.ViewModels
 
         public ObservableCollection<CategoryRecordModel> ExpensesCategoryRecordModels { get; set; }
 
-        public double IncomeValue => _incomeValue;
+        public double IncomeValue
+        {
+            get => _incomeValue;
+            set
+            {
+                if (_incomeValue != value)
+                {
+                    _incomeValue = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
-        public double ExpensesValue => _expensesValue;
+        public double ExpensesValue
+        {
+            get => _expensesValue;
+            set
+            {
+                if (_expensesValue != value)
+                {
+                    _expensesValue = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
-        public double Balance => _incomeValue - _expensesValue;
+        public double Balance
+        {
+            get => _balance;
+            set
+            {
+                if (_balance != value)
+                {
+                    _balance = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         private RelayCommand _refreshCommand;
         public RelayCommand RefreshCommand
@@ -86,9 +126,17 @@ namespace UI.ViewModels
             {
                 return _setDates ??= new RelayCommand(
                     (obj) => SetDatesInterval((DateTypes)obj), 
-                    (obj) => obj is DateTypes
+                    null
                     );
             }
+        }
+
+        public void UpdateServices(RecordService recordService, CategoryService categoryService)
+        {
+            _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
+            _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+
+            SetCategoryRecordModels();
         }
 
         private void SetCategoryRecordModels()
@@ -104,17 +152,33 @@ namespace UI.ViewModels
                 {
                     if (categoryRecordModel.CategoryModel.Group == CategoryGroups.Expenses)
                     {
-                        ExpensesCategoryRecordModels.Add(categoryRecordModel);
+                        AddCategoryRecordModelToCollection(ExpensesCategoryRecordModels, categoryRecordModel);
                     }
                     else if (categoryRecordModel.CategoryModel.Group == CategoryGroups.Income)
                     {
-                        IncomeCategoryRecordModels.Add(categoryRecordModel);
+                        AddCategoryRecordModelToCollection(IncomeCategoryRecordModels, categoryRecordModel);
                     }
                 }
             }
 
-            _incomeValue = IncomeCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value);
-            _expensesValue = ExpensesCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value);
+            IncomeValue = IncomeCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value);
+            ExpensesValue = ExpensesCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value);
+            Balance = IncomeValue - ExpensesValue;
+        }
+
+        private void AddCategoryRecordModelToCollection(ObservableCollection<CategoryRecordModel> collection, CategoryRecordModel model)
+        {
+            var sameCategoryCollection = collection.Where(categoryRecordModel => categoryRecordModel.CategoryModel.Id == model.CategoryModel.Id)
+                            .ToList();
+
+            if (sameCategoryCollection.Count() > 0)
+            {
+                sameCategoryCollection[0].Value += model.Value;
+            }
+            else
+            {
+                collection.Add(model);
+            }
         }
 
         private void SetDatesInterval(DateTypes dateType)
@@ -135,25 +199,25 @@ namespace UI.ViewModels
 
         private void SetCurrentWeekDates()
         {
-            var now = DateTime.Now;
-            var currentDayNum = (int)now.DayOfWeek - 1;
+            var today = DateTime.Today;
+            var currentDayNum = (int)today.DayOfWeek - 1;
             currentDayNum = currentDayNum < 0 ? 6 : currentDayNum;
-            StartDate = DateTime.Now.AddDays(-currentDayNum);
-            EndDate = DateTime.Now.AddDays(6 - currentDayNum);
+            StartDate = today.AddDays(-currentDayNum);
+            EndDate = today.AddDays(6 - currentDayNum).AddDays(1).AddTicks(-1);
         }
 
         private void SetCurrentMonthDates()
         {
-            var now = DateTime.Now;
-            StartDate = new DateTime(now.Year, now.Month, 1);
-            EndDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+            var today = DateTime.Today;
+            StartDate = new DateTime(today.Year, today.Month, 1);
+            EndDate = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)).AddDays(1).AddTicks(-1);
         }
 
         private void SetCurrentYearDates()
         {
-            var now = DateTime.Now;
-            StartDate = new DateTime(now.Year, 1, 1);
-            EndDate = new DateTime(now.Year, 12, DateTime.DaysInMonth(now.Year, 12));
+            var today = DateTime.Today;
+            StartDate = new DateTime(today.Year, 1, 1);
+            EndDate = new DateTime(today.Year, 12, DateTime.DaysInMonth(today.Year, 12)).AddDays(1).AddTicks(-1);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

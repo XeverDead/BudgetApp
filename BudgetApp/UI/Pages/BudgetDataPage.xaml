@@ -39,15 +39,29 @@
             <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate}" />
             <Label x:Name="EndDateLabel">По</Label>
             <DatePicker x:Name="EndDatePicker" SelectedDate="{Binding EndDate}" />
-            <Button x:Name="ApplyButton" Command="{Binding RefreshCommand}">Принять</Button>
+            <Button x:Name="RefreshButton" Command="{Binding RefreshCommand}">Обновить</Button>
         </UniformGrid>
         <UniformGrid x:Name="LabelsGrid" Columns="2" Grid.Row="2">
             <Label x:Name="IncomeLabel">Доходы</Label>
             <Label x:Name="ExpensesLabel">Расходы</Label>
         </UniformGrid>
         <UniformGrid x:Name="BudgetGrid" Grid.Row="3" Columns="2">
-            <DataGrid x:Name="IncomeDataGrid" ItemsSource="{Binding IncomeCategoryRecordModels}"/>
-            <DataGrid x:Name="ExpensesDataGrid" ItemsSource="{Binding ExpensesCategoryRecordModels}"/>
+            <ListView x:Name="IncomeListView" ItemsSource="{Binding IncomeCategoryRecordModels}" Background="LightGreen">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding CategoryModel.Name}">Категория</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Value}">Значение</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView x:Name="ExpensesListView" ItemsSource="{Binding ExpensesCategoryRecordModels}" Background="LightBlue">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding CategoryModel.Name}">Категория</GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Value}">Значение</GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </UniformGrid>
         <Grid x:Name="ResultsGrid" Grid.Row="4">
             <Grid.RowDefinitions>

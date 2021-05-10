@@ -4,35 +4,31 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:UI.Pages"
-      xmlns:enums="clr-namespace:Common.Enums;assembly=Common"
+      xmlns:converters="clr-namespace:UI.Converters"
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CategoryModificationPage">
 
     <Page.Resources>
-        <ObjectDataProvider MethodName="GetValues"
-                            ObjectType="{x:Type sys:Enum}"
-                            x:Key="CategoryGroups">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="enums:CategoryGroups" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <converters:CategoryGroupsToDisplayNamesConverter x:Key="collectionConverter" />
+        <converters:CategoryGroupToDisplayNameConverter x:Key="converter" />
     </Page.Resources>
     
     <UniformGrid x:Name="MainGrid" Rows="3">
         <UniformGrid x:Name="NameGrid" Columns="2">
             <Label x:Name="NameLabel">Название</Label>
-            <TextBox x:Name="NameTextBox" Text="{Binding CategoryModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="NameTextBox" Text="{Binding CategoryModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="NameTextBox_TextChanged"/>
         </UniformGrid>
         <UniformGrid x:Name="GroupGrid" Columns="2">
             <Label x:Name="GroupLabel">Группа</Label>
-            <ComboBox x:Name="GroupComboBox" SelectedItem="{Binding CategoryModel.Group, Mode=TwoWay}" 
-                      ItemsSource="{Binding Source={StaticResource CategoryGroups}}"/>
+            <ComboBox x:Name="GroupComboBox" SelectedItem="{Binding CategoryModel.Group, Mode=TwoWay, Converter={StaticResource converter}}" 
+                      ItemsSource="{Binding CategoryGroups, Converter={StaticResource collectionConverter}}"/>
         </UniformGrid>
-        <UniformGrid x:Name="ButtonsGrid" Columns="2">
-            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow">Приянть</Button>
-            <Button x:Name="CancelButton" Click="CloseParentWindow">Отмена</Button>
+        <UniformGrid x:Name="ButtonsGrid" Columns="3">
+            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow" Background="YellowGreen">Приянть</Button>
+            <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" Click="CloseParentWindow" Background="IndianRed">Удалить</Button>
+            <Button x:Name="CancelButton" Click="CloseParentWindow" Background="PaleGoldenrod">Отмена</Button>
         </UniformGrid>
     </UniformGrid>
 </Page>

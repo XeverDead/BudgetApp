@@ -24,21 +24,6 @@ namespace Common.Entities
 
         public object Clone()
         {
-            //var categoryRecords = new List<CategoryRecord>();
-
-            //foreach (var categoryRecord in CategoryRecords)
-            //{
-            //    categoryRecords.Add((CategoryRecord)categoryRecord.Clone());
-            //}
-
-            //var record = new Record
-            //{
-            //    Id = Id,
-            //    CategoryRecords = categoryRecords,
-            //    Date = Date,
-            //    Note = Note
-            //};
-
             return MemberwiseClone();
         }
     }

@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using BLL.Services;
 using UI.Models;
 using UI.ViewModels;
-
 
 namespace UI.Pages
 {
@@ -30,11 +19,18 @@ namespace UI.Pages
                 categoryModel,
                 ServiceProviderContainer.GetService<CategoryService>()
                 );
+
+            ApplyButton.IsEnabled = !string.IsNullOrWhiteSpace(NameTextBox.Text);
         }
 
         private void CloseParentWindow(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this).Close();
+        }
+
+        private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyButton.IsEnabled = !string.IsNullOrWhiteSpace(NameTextBox.Text);
         }
     }
 }

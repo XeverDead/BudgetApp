@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using UI.Pages;
 
 namespace UI
 {
@@ -23,6 +12,43 @@ namespace UI
         public MainWindow()
         {
             InitializeComponent();
+
+            CategoriesListTabHeaderLabel.MouseLeftButtonDown += CategoriesListTabHeaderLabel_MouseLeftButtonDown;
+            RecordsListTabHeaderLabel.MouseLeftButtonDown += RecordsListTabHeaderLabel_MouseLeftButtonDown;
+        }
+
+        private void BudgetDataTabHeaderLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var budgetDataPage = BudgetDataFrame.Content as BudgetDataPage;
+            budgetDataPage.UpdateViewModelServices();
+
+            RemoveEventHandlers();
+            CategoriesListTabHeaderLabel.MouseLeftButtonDown += CategoriesListTabHeaderLabel_MouseLeftButtonDown;
+            RecordsListTabHeaderLabel.MouseLeftButtonDown += RecordsListTabHeaderLabel_MouseLeftButtonDown;
+        }
+
+        private void CategoriesListTabHeaderLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            RemoveEventHandlers();
+            RecordsListTabHeaderLabel.MouseLeftButtonDown += RecordsListTabHeaderLabel_MouseLeftButtonDown;
+            BudgetDataTabHeaderLabel.MouseLeftButtonDown += BudgetDataTabHeaderLabel_MouseLeftButtonDown;
+        }
+
+        private void RecordsListTabHeaderLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var recordsListPage = RecordsListFrame.Content as RecordsListPage;
+            recordsListPage.UpdateViewModelServices();
+
+            RemoveEventHandlers();
+            CategoriesListTabHeaderLabel.MouseLeftButtonDown += CategoriesListTabHeaderLabel_MouseLeftButtonDown;
+            BudgetDataTabHeaderLabel.MouseLeftButtonDown += BudgetDataTabHeaderLabel_MouseLeftButtonDown;
+        }
+
+        private void RemoveEventHandlers()
+        {
+            CategoriesListTabHeaderLabel.MouseLeftButtonDown -= CategoriesListTabHeaderLabel_MouseLeftButtonDown;
+            RecordsListTabHeaderLabel.MouseLeftButtonDown -= RecordsListTabHeaderLabel_MouseLeftButtonDown;
+            BudgetDataTabHeaderLabel.MouseLeftButtonDown -= BudgetDataTabHeaderLabel_MouseLeftButtonDown;
         }
     }
 }

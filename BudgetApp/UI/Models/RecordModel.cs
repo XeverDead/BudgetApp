@@ -1,7 +1,6 @@
 ﻿using BLL.Services;
 using Common.Entities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -61,6 +60,19 @@ namespace UI.Models
                     _record.Date = value;
                     RaisePropertyChanged();
                 }
+            }
+        }
+
+        public string DisplayableNote
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(Note))
+                {
+                    return Note + $" ({Date:dd.MM.yyyy})";
+                }
+
+                return $"Запись без пометки от {Date:dd.MM.yyyy}";
             }
         }
 

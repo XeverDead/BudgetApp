@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using BLL.Services;
 using UI.ViewModels;
 
@@ -33,35 +23,38 @@ namespace UI.Pages
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            var recordPage = new RecordModificationPage(null);
+            ShowRecordModificationWindow(new RecordModificationPage(null));
 
-            var dialogWindow = new DialogWindow()
-            {
-                Owner = Window.GetWindow(this),
-                Content = recordPage
-            };
-
-            dialogWindow.ShowDialog();
-
-            _viewModel.SetRecordModels();
+            UpdateViewModelServices();
         }
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
             if (_viewModel.IsCurrentRecordModelNotNull)
             {
-                var recordPage = new RecordModificationPage(_viewModel.CurrentRecordModel);
+                ShowRecordModificationWindow(new RecordModificationPage(_viewModel.CurrentRecordModel));
 
-                var dialogWindow = new DialogWindow()
-                {
-                    Owner = Window.GetWindow(this),
-                    Content = recordPage
-                };
-
-                dialogWindow.ShowDialog();
-
-                _viewModel.SetRecordModels();
+                UpdateViewModelServices();
             }
+        }
+
+        private void ShowRecordModificationWindow(RecordModificationPage content)
+        {
+            var dialogWindow = new DialogWindow()
+            {
+                Owner = Window.GetWindow(this),
+                Content = content
+            };
+
+            dialogWindow.ShowDialog();
+        }
+
+        public void UpdateViewModelServices()
+        {
+            _viewModel.UpdateServices(
+                ServiceProviderContainer.GetService<RecordService>(),
+                ServiceProviderContainer.GetService<CategoryService>()
+                );
         }
     }
 }

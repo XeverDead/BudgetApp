@@ -10,7 +10,7 @@ namespace UI.ViewModels
 {
     public class CategoriesListViewModel : INotifyPropertyChanged
     {
-        private readonly CategoryService _categoryService;
+        private CategoryService _categoryService;
 
         private CategoryModel _currentCategoryModel;
 
@@ -48,7 +48,14 @@ namespace UI.ViewModels
             }
         }
 
-        public void SetCategoryModels()
+        public void UpdateServices(CategoryService categoryService)
+        {
+            _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+
+            SetCategoryModels();
+        }
+
+        private void SetCategoryModels()
         {
             ExpensesCategoryModels.Clear();
 

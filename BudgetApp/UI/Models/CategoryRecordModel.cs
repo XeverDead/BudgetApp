@@ -62,7 +62,7 @@ namespace UI.Models
             {
                 if (_categoryRecord.Note != value)
                 {
-                    _categoryRecord.Note = Note;
+                    _categoryRecord.Note = value;
                     RaisePropertyChanged();
                 }
             }

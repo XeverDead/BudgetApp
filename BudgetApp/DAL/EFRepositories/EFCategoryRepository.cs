@@ -1,7 +1,6 @@
 ﻿using Common.Entities;
 using Common.Enums;
 using DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,6 +44,22 @@ namespace DAL.EFRepositories
         public IEnumerable<Category> GetByGroup(CategoryGroups group)
         {
             return _dbContext.Categories.Where(category => category.Group == group).ToList();
+        }
+
+        public bool CanDelete(Category category)
+        {
+            return (category.Id != 0) && _dbContext.CategoryRecords
+                .Where(categoryRecord => categoryRecord.CategoryId == category.Id)
+                .Count() == 0;
+        }
+
+        public void Delete(Category category)
+        {
+            if (CanDelete(category))
+            {
+                _dbContext.Categories.Remove(category);
+                _dbContext.SaveChanges();
+            }
         }
     }
 }

@@ -38,9 +38,11 @@
             <DatePicker x:Name="StartDatePicker" SelectedDate="{Binding StartDate, Mode=TwoWay}"/>
             <Label x:Name="EndDateLabel">По</Label>
             <DatePicker x:Name="EndDatePicker" SelectedDate="{Binding EndDate, Mode=TwoWay}"/>
-            <Button x:Name="ApplyButton" Command="{Binding RefreshCommand}">Приянть</Button>
+            <Button x:Name="RefreshButton" Command="{Binding RefreshCommand}">Обновить</Button>
         </UniformGrid>
-        <ListView x:Name="RecordsListView" Grid.Row="2"></ListView>
+        <ListView x:Name="RecordsListView" Grid.Row="2" ItemsSource="{Binding RecordModels}" 
+                  SelectedItem="{Binding CurrentRecordModel, Mode=TwoWay}" DisplayMemberPath="DisplayableNote">
+        </ListView>
         <UniformGrid x:Name="ButtonsGrid" Columns="2" Grid.Row="4">
             <Button x:Name="ChangeButton" IsEnabled="{Binding IsCurrentRecordModelNotNull, Mode=OneWay}" Click="ChangeButton_Click">Изменить</Button>
             <Button x:Name="AddButton" Click="AddButton_Click">Добавить</Button>

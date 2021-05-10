@@ -29,6 +29,16 @@ namespace BLL.Services
             return _repository.Update(category);
         }
 
+        public bool CanDelete(Category category)
+        {
+            return _repository.CanDelete(category);
+        }
+
+        public void Delete(Category category)
+        {
+            _repository.Delete(category);
+        }
+
         public Category GetById(long id)
         {
             return _repository.GetById(id);

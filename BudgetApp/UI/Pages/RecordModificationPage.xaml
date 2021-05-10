@@ -15,6 +15,7 @@
             <RowDefinition Height="0.1*" />
             <RowDefinition />
             <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.1*" />
         </Grid.RowDefinitions>
         <UniformGrid x:Name="DateGrid" Columns="2">
             <Label x:Name="DateLabel">Дата</Label>
@@ -29,12 +30,54 @@
             <Label x:Name="ExpensesLabel">Расходы</Label>
         </UniformGrid>
         <UniformGrid x:Name="BudgetGrid" Grid.Row="3" Columns="2">
-            <DataGrid x:Name="IncomeDataGrid" ItemsSource="{Binding IncomeCategoryRecordModels}" />
-            <DataGrid x:Name="ExpensesDataGrid" ItemsSource="{Binding ExpensesCategoryRecordModels}"/>
+            <DataGrid x:Name="IncomeDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding IncomeCategoryRecordModels}"
+                      SelectedItem="{Binding CurrentCategoryRecordModel, Mode=TwoWay}" Background="LightGreen" RowBackground="LightGreen">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Категория" Binding="{Binding CategoryModel.Name}" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="Значение">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Value}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Value}" PreviewTextInput="NumericTextBox_PreviewTextInput" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Пометка" Binding="{Binding Note}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid x:Name="ExpensesDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding ExpensesCategoryRecordModels}" 
+                      SelectedItem="{Binding CurrentCategoryRecordModel, Mode=TwoWay}" Background="LightBlue" RowBackground="LightBlue">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Категория" Binding="{Binding CategoryModel.Name}" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="Значение">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Value}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Value}" PreviewTextInput="NumericTextBox_PreviewTextInput" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Пометка" Binding="{Binding Note}" />
+                </DataGrid.Columns>
+            </DataGrid>
         </UniformGrid>
-        <UniformGrid x:Name="ButtonsGrid" Columns="2" Grid.Row="4">
-            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow">Принять</Button>
-            <Button x:Name="CancelButton" Click="CloseParentWindow">Отмена</Button>
+        <UniformGrid x:Name="CategoryButtonsGrid" Columns="2" Grid.Row="4">
+            <Button x:Name="AddCategoryButton" Click="AddCategoryButton_Click" Background="YellowGreen">Добавить категорию</Button>
+            <Button x:Name="DeleteCategoryButton" Command="{Binding DeleteCategoryRecordCommand}" Background="IndianRed">Удалить категорию</Button>
+        </UniformGrid>
+        <UniformGrid x:Name="RecordButtonsGrid" Columns="3" Grid.Row="5">
+            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow" Background="YellowGreen">Принять</Button>
+            <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" PreviewMouseLeftButtonUp="DeleteButton_PreviewMouseLeftButtonUp"
+                    Background="IndianRed">Удалить</Button>
+            <Button x:Name="CancelButton" Click="CloseParentWindow" Background="PaleGoldenrod">Отмена</Button>
         </UniformGrid>
     </Grid>
 </Page>

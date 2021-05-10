@@ -1,6 +1,9 @@
 ﻿using BLL.Services;
+using Common.Enums;
 using System;
+using System.Collections.Generic;
 using UI.Models;
+using System.Linq;
 
 namespace UI.ViewModels
 {
@@ -13,9 +16,13 @@ namespace UI.ViewModels
             _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
 
             CategoryModel = categoryModel ?? new CategoryModel(null);
+
+            SetCategoryGroupsNames();
         }
 
         public CategoryModel CategoryModel { get; set; }
+
+        public List<CategoryGroups> CategoryGroups { get; private set; }
 
         private RelayCommand _saveCommand;
 
@@ -26,7 +33,7 @@ namespace UI.ViewModels
                 return _saveCommand ??= new RelayCommand(
                     (obj) =>
                     {
-                        if (CategoryModel.Id <= 0)
+                        if (CategoryModel.Id == 0)
                         {
                             _categoryService.Add(CategoryModel.GetCategory());
                         }
@@ -39,6 +46,24 @@ namespace UI.ViewModels
                     null
                     );
             }
+        }
+
+        private RelayCommand _deleteCommand;
+
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return _deleteCommand ??= new RelayCommand(
+                    (obj) => _categoryService.Delete(CategoryModel.GetCategory()),
+                    (obj) => _categoryService.CanDelete(CategoryModel.GetCategory())
+                    );
+            }
+        }
+
+        private void SetCategoryGroupsNames()
+        {
+            CategoryGroups = new List<CategoryGroups>(Enum.GetValues(typeof(CategoryGroups)).Cast<CategoryGroups>());
         }
     }
 }

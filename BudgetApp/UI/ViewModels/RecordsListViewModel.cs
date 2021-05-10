@@ -10,8 +10,8 @@ namespace UI.ViewModels
 {
     public class RecordsListViewModel : INotifyPropertyChanged
     {
-        private readonly RecordService _recordService;
-        private readonly CategoryService _categoryService;
+        private RecordService _recordService;
+        private CategoryService _categoryService;
 
         private RecordModel _currentRecordModel;
 
@@ -38,6 +38,7 @@ namespace UI.ViewModels
             set
             {
                 _currentRecordModel = value;
+                IsCurrentRecordModelNotNull = _currentRecordModel != null;
                 RaisePropertyChanged();
             }
         }
@@ -51,7 +52,6 @@ namespace UI.ViewModels
                 {
                     _startDate = value;
                     RaisePropertyChanged();
-                    SetRecordModels();
                 }
             }
         }
@@ -64,10 +64,34 @@ namespace UI.ViewModels
                 if (_endDate != value)
                 {
                     _endDate = value;
+
+                    if (_endDate == _endDate.Date)
+                    {
+                        _endDate = _endDate.AddDays(1).AddTicks(-1);
+                    }
+
                     RaisePropertyChanged();
-                    SetRecordModels();
                 }
             }
+        }
+
+        public bool IsCurrentRecordModelNotNull
+        {
+            get => _currentRecordModel != null;
+            set
+            {
+                RaisePropertyChanged();
+            }
+        }
+
+        public void UpdateServices(RecordService recordService, CategoryService categoryService)
+        {
+            _recordService = recordService ?? throw new ArgumentNullException(nameof(recordService));
+            _categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
+
+            _currentRecordModel = null;
+
+            SetRecordModels();
         }
 
         private RelayCommand _refreshCommand;
@@ -86,18 +110,17 @@ namespace UI.ViewModels
             {
                 return _setDates ??= new RelayCommand(
                     (obj) => SetDatesInterval((DateTypes)obj),
-                    (obj) => obj is DateTypes
+                    null
                     );
             }
         }
 
-        public void SetRecordModels()
+        private void SetRecordModels()
         {
             RecordModels.Clear();
 
             foreach (var record in _recordService.GetByDate(_startDate, _endDate))
             {
-                //исправить на передачу categoryService из DI
                 RecordModels.Add(new RecordModel(record, _categoryService));
             }
         }
@@ -120,28 +143,26 @@ namespace UI.ViewModels
 
         private void SetCurrentWeekDates()
         {
-            var now = DateTime.Now;
-            var currentDayNum = (int)now.DayOfWeek - 1;
+            var today = DateTime.Today;
+            var currentDayNum = (int)today.DayOfWeek - 1;
             currentDayNum = currentDayNum < 0 ? 6 : currentDayNum;
-            StartDate = DateTime.Now.AddDays(-currentDayNum);
-            EndDate = DateTime.Now.AddDays(6 - currentDayNum);
+            StartDate = today.AddDays(-currentDayNum);
+            EndDate = today.AddDays(6 - currentDayNum).AddDays(1).AddTicks(-1);
         }
 
         private void SetCurrentMonthDates()
         {
-            var now = DateTime.Now;
-            StartDate = new DateTime(now.Year, now.Month, 1);
-            EndDate = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+            var today = DateTime.Today;
+            StartDate = new DateTime(today.Year, today.Month, 1);
+            EndDate = new DateTime(today.Year, today.Month, DateTime.DaysInMonth(today.Year, today.Month)).AddDays(1).AddTicks(-1);
         }
 
         private void SetCurrentYearDates()
         {
-            var now = DateTime.Now;
-            StartDate = new DateTime(now.Year, 1, 1);
-            EndDate = new DateTime(now.Year, 12, DateTime.DaysInMonth(now.Year, 12));
+            var today = DateTime.Today;
+            StartDate = new DateTime(today.Year, 1, 1);
+            EndDate = new DateTime(today.Year, 12, DateTime.DaysInMonth(today.Year, 12)).AddDays(1).AddTicks(-1);
         }
-
-        public bool IsCurrentRecordModelNotNull => _currentRecordModel != null;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
