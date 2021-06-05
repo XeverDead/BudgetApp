@@ -8,7 +8,7 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CategoryModificationPage">
+      Title="Изменение категории">
 
     <Page.Resources>
         <converters:CategoryGroupsToDisplayNamesConverter x:Key="collectionConverter" />

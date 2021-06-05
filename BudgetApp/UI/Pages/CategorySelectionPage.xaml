@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:UI.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CategorySelectionPage">
+      Title="Выбор категории">
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
