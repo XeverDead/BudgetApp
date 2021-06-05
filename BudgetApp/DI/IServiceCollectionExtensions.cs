@@ -9,16 +9,16 @@ namespace DI
 {
     public static class IServiceCollectionExtensions
     {
-        public static void AddBudgetAppDependencies(this IServiceCollection services)
+        public static void AddBudgetAppDependencies(this IServiceCollection services, string connectionString)
         {
-            AddDalDependencies(services);
+            AddDalDependencies(services, connectionString);
             AddBllDependencies(services);
         }
 
-        private static void AddDalDependencies(IServiceCollection services)
+        private static void AddDalDependencies(IServiceCollection services, string connectionString)
         {
             var options = new DbContextOptionsBuilder<BudgetContext>()
-                .UseSqlite("Filename=database.db;")
+                .UseSqlite(connectionString)
                 .Options;
 
             services.AddTransient((services) => new BudgetContext(options));

@@ -161,8 +161,8 @@ namespace UI.ViewModels
                 }
             }
 
-            IncomeValue = IncomeCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value);
-            ExpensesValue = ExpensesCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value);
+            IncomeValue = Math.Round(IncomeCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value), 2);
+            ExpensesValue = Math.Round(ExpensesCategoryRecordModels.Sum(categoryRecordModel => categoryRecordModel.Value), 2);
             Balance = IncomeValue - ExpensesValue;
         }
 

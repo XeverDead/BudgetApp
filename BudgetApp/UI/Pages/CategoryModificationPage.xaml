@@ -8,7 +8,8 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Изменение категории">
+      Title="Изменение категории"
+      WindowTitle="Изменение категории">
 
     <Page.Resources>
         <converters:CategoryGroupsToDisplayNamesConverter x:Key="collectionConverter" />
@@ -26,7 +27,7 @@
                       ItemsSource="{Binding CategoryGroups, Converter={StaticResource collectionConverter}}"/>
         </UniformGrid>
         <UniformGrid x:Name="ButtonsGrid" Columns="3">
-            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow" Background="YellowGreen">Приянть</Button>
+            <Button x:Name="ApplyButton" Command="{Binding SaveCommand}" Click="CloseParentWindow" Background="YellowGreen">Принять</Button>
             <Button x:Name="DeleteButton" Command="{Binding DeleteCommand}" Click="CloseParentWindow" Background="IndianRed">Удалить</Button>
             <Button x:Name="CancelButton" Click="CloseParentWindow" Background="PaleGoldenrod">Отмена</Button>
         </UniformGrid>

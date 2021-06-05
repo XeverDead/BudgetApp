@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:UI.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Изменение записи">
+      Title="Изменение записи"
+      WindowTitle="Изменение записи">
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>

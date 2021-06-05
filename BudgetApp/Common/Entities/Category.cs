@@ -14,6 +14,8 @@ namespace Common.Entities
 
         public CategoryGroups Group { get; set; }
 
+        //public int Position { get; set; }
+
         public object Clone()
         {
             return MemberwiseClone();

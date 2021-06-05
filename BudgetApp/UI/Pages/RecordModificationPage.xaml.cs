@@ -26,6 +26,11 @@ namespace UI.Pages
                 );
 
             DataContext = _viewModel;
+
+            if (recordModel == null)
+            {
+                WindowTitle = "Создание записи";
+            }
         }
 
         private void CloseParentWindow(object sender, RoutedEventArgs e)

@@ -21,6 +21,11 @@ namespace UI.Pages
                 );
 
             ApplyButton.IsEnabled = !string.IsNullOrWhiteSpace(NameTextBox.Text);
+
+            if (categoryModel == null)
+            {
+                WindowTitle = "Создание категории";
+            }
         }
 
         private void CloseParentWindow(object sender, RoutedEventArgs e)

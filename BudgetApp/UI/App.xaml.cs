@@ -15,7 +15,7 @@ namespace UI
 
             var services = new ServiceCollection();
 
-            services.AddBudgetAppDependencies();
+            services.AddBudgetAppDependencies("Filename=BudgetApp.db;");
 
             ServiceProviderContainer.SetServiceProvider(services.BuildServiceProvider());
         }

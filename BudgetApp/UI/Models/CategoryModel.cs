@@ -49,6 +49,8 @@ namespace UI.Models
             }
         }
 
+        //public int Position => _category.Position;
+
         public Category GetCategory()
         {
             return (Category)_category.Clone();

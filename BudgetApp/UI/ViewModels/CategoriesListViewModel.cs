@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Common.Enums;
 using UI.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UI.ViewModels
 {
@@ -71,8 +73,18 @@ namespace UI.ViewModels
                 IncomeCategoryModels.Add(new CategoryModel(category));
             }
 
+            //SortCategoryModels(ExpensesCategoryModels);
+            //SortCategoryModels(IncomeCategoryModels);
+
             CurrentCategoryModel = null;
         }
+
+        //private void SortCategoryModels(ObservableCollection<CategoryModel> collection)
+        //{
+        //    collection = (ObservableCollection<CategoryModel>)(from category in collection
+        //                                                       orderby category.Position
+        //                                                       select category);
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
